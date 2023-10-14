@@ -25,5 +25,13 @@
   "faction_keywords": [
     "adeptus astartes",
     "blood angels"
+  ],
+  "abilities": [
+    "Ability 1: CORE:DeepStrike,FeelNoPain6+,Leader",
+    "Ability 2: FACTION:OathofMoment",
+    "Ability 3: Guardian of the Lost:While this model is leading a unit, each time an attack is allocated to a model in that unit, subtract 1 from the Damage characteristic of that attack.Fury Unbound:While this model is leading a unit, melee weapons equipped by models in that unit have the[LETHALHITS]ability.",
+    "Ability 4: 1 Lemartes \u2013Epic HeroThis model is equipped with:bolt pistol; the Blood Crozius.",
+    "Ability 5: 1 model110",
+    "Ability 6: This model can be attached to the following unit:DEATHCOMPANYMARINESWITHJUMPPACKS"
   ]
 }

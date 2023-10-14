@@ -1,5 +1,5 @@
 # main.py
-from scraping_modules import scraper, attributes, keywords, lore, factionKeyword
+from scraping_modules import scraper, attributes, keywords, lore, factionKeyword, ability  # Import the ability module
 from bs4 import BeautifulSoup
 import json
 
@@ -24,6 +24,9 @@ def main():
         unit_lore = lore.extract_lore(response.text)
         unit_faction_keywords = factionKeyword.extract_faction_keywords(response.text)
 
+        # Extract abilities using the new function
+        unit_abilities = ability.extract_abilities(response.text)
+
         # Create a dictionary with the data
         data = {
             "parentUnit": fetched_text,
@@ -31,6 +34,7 @@ def main():
             "keywords": unit_keywords,
             "lore": unit_lore,
             "faction_keywords": unit_faction_keywords,
+            "abilities": unit_abilities,  # Add abilities to the data
             # "raw_html": response.text  # Save the raw HTML if needed
         }
 
