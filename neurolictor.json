@@ -1,0 +1,13 @@
+{
+  "parentUnit": "Neurolictor",
+  "attributes": [
+    {
+      "movement": 8,
+      "toughness": 5,
+      "save": 0,
+      "wounds": 0,
+      "leadership": 0,
+      "objectiveControl": 0
+    }
+  ]
+}
