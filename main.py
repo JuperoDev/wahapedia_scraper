@@ -1,5 +1,5 @@
 # main.py
-from scraping_modules import scraper, attributes, keywords, lore
+from scraping_modules import scraper, attributes, keywords, lore, factionKeyword
 from bs4 import BeautifulSoup
 import json
 
@@ -8,7 +8,7 @@ def save_to_json(filename, data):
         json.dump(data, json_file, indent=2)
 
 def main():
-    url = "https://wahapedia.ru/wh40k10ed/factions/tyranids/Neurolictor"
+    url = "https://wahapedia.ru/wh40k10ed/factions/blood-angels/Lemartes"
     fetched_text = scraper.fetch_text(url)
 
     if fetched_text:
@@ -22,6 +22,7 @@ def main():
         unit_attributes = attributes.fetch_attributes(char_wrap)
         unit_keywords = keywords.extract_keywords(response.text)
         unit_lore = lore.extract_lore(response.text)
+        unit_faction_keywords = factionKeyword.extract_faction_keywords(response.text)
 
         # Create a dictionary with the data
         data = {
@@ -29,6 +30,7 @@ def main():
             "attributes": [unit_attributes],
             "keywords": unit_keywords,
             "lore": unit_lore,
+            "faction_keywords": unit_faction_keywords,
             # "raw_html": response.text  # Save the raw HTML if needed
         }
 

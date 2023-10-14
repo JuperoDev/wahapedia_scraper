@@ -1,0 +1,29 @@
+{
+  "parentUnit": "Lemartes",
+  "attributes": [
+    {
+      "movement": 12,
+      "toughness": 4,
+      "save": 0,
+      "wounds": 0,
+      "leadership": 0,
+      "objectiveControl": 0
+    }
+  ],
+  "keywords": [
+    "infantry",
+    "character",
+    "epichero",
+    "fly",
+    "jumppack",
+    "grenades",
+    "imperium",
+    "chaplain",
+    "lemartes"
+  ],
+  "lore": "Lemartes\u2019 life is one of constant battle. A warrior of iron will, somehow he retains lucidity despite having succumbed to the Black Rage. He leads the Blood Angels\u2019 Death Company as Guardian of the Lost, wielding the ancient weapon known as the Blood Crozius. His inspiration has only made the Death Company even more potent.",
+  "faction_keywords": [
+    "adeptus astartes",
+    "blood angels"
+  ]
+}
