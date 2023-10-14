@@ -21,7 +21,7 @@
     "chaplain",
     "lemartes"
   ],
-  "lore": "Lemartes\u2019 life is one of constant battle. A warrior of iron will, somehow he retains lucidity despite having succumbed to the Black Rage. He leads the Blood Angels\u2019 Death Company as Guardian of the Lost, wielding the ancient weapon known as the Blood Crozius. His inspiration has only made the Death Company even more potent.",
+  "lore": "Lemartes’ life is one of constant battle. A warrior of iron will, somehow he retains lucidity despite having succumbed to the Black Rage. He leads the Blood Angels’ Death Company as Guardian of the Lost, wielding the ancient weapon known as the Blood Crozius. His inspiration has only made the Death Company even more potent.",
   "faction_keywords": [
     "adeptus astartes",
     "blood angels"
@@ -51,7 +51,7 @@
         "description": "While this model is leading a unit, each time an attack is allocated to a model in that unit, subtract 1 from the Damage characteristic of that attack. Fury Unbound: While this model is leading a unit, melee weapons equipped by models in that unit have the [LETHAL HITS] ability."
       },
       {
-        "name": "1 Lemartes \u2013 Epic Hero This model is equipped with",
+        "name": "1 Lemartes – Epic Hero This model is equipped with",
         "description": "bolt pistol; the Blood Crozius. 1 model 110"
       },
       {

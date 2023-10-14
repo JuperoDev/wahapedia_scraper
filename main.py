@@ -3,9 +3,10 @@ from scraping_modules import scraper, attributes, keywords, lore, factionKeyword
 from bs4 import BeautifulSoup
 import json
 
+
 def save_to_json(filename, data):
-    with open(filename, 'w') as json_file:
-        json.dump(data, json_file, indent=2)
+    with open(filename, 'w', encoding='utf-8') as json_file:
+        json.dump(data, json_file, indent=2, ensure_ascii=False)
 
 def main():
     url = "https://wahapedia.ru/wh40k10ed/factions/blood-angels/Lemartes"
