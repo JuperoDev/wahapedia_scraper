@@ -7,7 +7,8 @@
       "save": 3,
       "wounds": 4,
       "leadership": 5,
-      "objectiveControl": 1
+      "objectiveControl": 1,
+      "invulnerableSave": 4
     }
   ],
   "keywords": [

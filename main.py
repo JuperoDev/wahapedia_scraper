@@ -1,5 +1,5 @@
 # main.py
-from scraping_modules import scraper, attributes, keywords, lore, factionKeyword, ability
+from scraping_modules import scraper, attributes, keywords, lore, factionKeyword, ability, invulnerable
 from bs4 import BeautifulSoup
 import json
 
@@ -8,7 +8,7 @@ def save_to_json(filename, data):
         json.dump(data, json_file, indent=2, ensure_ascii=False)
 
 def main():
-    url = "https://wahapedia.ru/wh40k10ed/factions/blood-angels/Lemartes"
+    url = "https://wahapedia.ru/wh40k10ed/factions/blood-angels/Sanguinary-Priest"
     fetched_text = scraper.fetch_text(url)
 
     if fetched_text:
@@ -16,15 +16,18 @@ def main():
         soup = BeautifulSoup(response.text, 'html.parser')
         char_wrap = soup.find('div', class_='dsProfileBaseWrap').find('div', class_='dsProfileWrapLeft').find('div', class_='dsProfileWrap')
 
-        # Use the fetch_attributes function from the attributes module
         unit_attributes = attributes.fetch_attributes(char_wrap)
-
         unit_keywords = keywords.extract_keywords(response.text)
         unit_lore = lore.extract_lore(response.text)
         unit_faction_keywords = factionKeyword.extract_faction_keywords(response.text)
         unit_abilities = ability.extract_abilities(response.text)
 
-        # Create a dictionary with the data
+        # Use the invulnerable module to extract invulnerable save
+        invulnerable_save = invulnerable.extract_invulnerable(soup)
+
+        # Update the last dictionary in the attributes list with invulnerableSave
+        unit_attributes[-1]["invulnerableSave"] = invulnerable_save
+
         data = {
             "parentUnit": fetched_text,
             "attributes": unit_attributes,
@@ -32,13 +35,9 @@ def main():
             "lore": unit_lore,
             "faction_keywords": unit_faction_keywords,
             "abilities": unit_abilities,
-            # "raw_html": response.text  # Save the raw HTML if needed
         }
 
-        # Replace spaces with "-" and convert to lowercase for filename
         filename = f"{fetched_text.replace(' ', '-').lower()}.json"
-
-        # Save to JSON file
         save_to_json(filename, data)
         print(f"Data saved to {filename}")
     else:
