@@ -26,12 +26,38 @@
     "adeptus astartes",
     "blood angels"
   ],
-  "abilities": [
-    "Ability 1: CORE:DeepStrike,FeelNoPain6+,Leader",
-    "Ability 2: FACTION:OathofMoment",
-    "Ability 3: Guardian of the Lost:While this model is leading a unit, each time an attack is allocated to a model in that unit, subtract 1 from the Damage characteristic of that attack.Fury Unbound:While this model is leading a unit, melee weapons equipped by models in that unit have the[LETHALHITS]ability.",
-    "Ability 4: 1 Lemartes \u2013Epic HeroThis model is equipped with:bolt pistol; the Blood Crozius.",
-    "Ability 5: 1 model110",
-    "Ability 6: This model can be attached to the following unit:DEATHCOMPANYMARINESWITHJUMPPACKS"
-  ]
+  "abilities": {
+    "core": [
+      {
+        "category": "core",
+        "abilities": [
+          "deep strike",
+          "feel no pain 6+",
+          "leader"
+        ]
+      }
+    ],
+    "faction": [
+      {
+        "category": "faction",
+        "abilities": [
+          "oath of moment"
+        ]
+      }
+    ],
+    "otherAbilities": [
+      {
+        "name": "Guardian of the Lost",
+        "description": "While this model is leading a unit, each time an attack is allocated to a model in that unit, subtract 1 from the Damage characteristic of that attack. Fury Unbound: While this model is leading a unit, melee weapons equipped by models in that unit have the [LETHAL HITS] ability."
+      },
+      {
+        "name": "1 Lemartes \u2013 Epic Hero This model is equipped with",
+        "description": "bolt pistol; the Blood Crozius. 1 model 110"
+      },
+      {
+        "name": "This model can be attached to the following unit",
+        "description": "DEATH COMPANY MARINES WITH JUMP PACKS"
+      }
+    ]
+  }
 }
