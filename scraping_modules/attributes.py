@@ -1,42 +1,61 @@
-# scraping_modules/attributes.py
-from bs4 import Tag
-import re
+# attributes.py
+def fetch_attributes(char_wrap):
+    # Extracting data from dsCharWrap
+    movement = extract_value(char_wrap, 0)
+    toughness = extract_value(char_wrap, 1)
+    save = extract_value(char_wrap, 2)
+    wounds = extract_value(char_wrap, 3)
+    leadership = extract_value(char_wrap, 4)
+    objective_control = extract_value(char_wrap, 5)
+
+    # Print the extracted data
+    print("Movement:", movement)
+    print("Toughness:", toughness)
+    print("Save:", save)
+    print("Wounds:", wounds)
+    print("Leadership:", leadership)
+    print("Objective Control:", objective_control)
+
+    # Save to a list with a single dictionary
+    attributes_data = [{
+        "movement": movement,
+        "toughness": toughness,
+        "save": save,
+        "wounds": wounds,
+        "leadership": leadership,
+        "objectiveControl": objective_control
+    }]
+
+    return attributes_data
 
 
-def extract_attribute_value(char_wrap: Tag, char_name: str) -> int:
-    char_name_element = char_wrap.find('div', class_='dsCharName', string=char_name)
+def extract_value(char_wrap, index):
+    # Find the dsCharWrap div
+    ds_char_wrap = char_wrap.find_all('div', class_='dsCharWrap')[index]
 
-    if char_name_element:
-        char_frame = char_name_element.find_next('div', class_='dsCharFrame')
-        char_frame_back = char_frame.find('div', class_='dsCharFrameBack')
-        char_value_element = char_frame_back.find('div', class_='dsCharValue')
+    # Find the dsCharValue div
+    ds_char_value = ds_char_wrap.find('div', class_='dsCharValue')
 
-        if char_value_element:
-            char_value_text = char_value_element.text.strip()
+    # Extract the text from dsCharValue
+    text = ds_char_value.get_text(strip=True)
 
-            # Use regular expression to extract the number
-            match = re.search(r'\d+', char_value_text)
+    # Process the text to get the desired value
+    value = process_text(text)
 
-            if match:
-                char_value = int(match.group())
-                return char_value
-
-    return 0
+    return value
 
 
-def fetch_attributes(char_wrap: Tag):
-    # Fetch the first sibling dsCharWrap for 'toughness'
-    toughness_char_wrap = char_wrap.find_next_sibling('div', class_='dsCharWrap')
+def process_text(text):
+    # Add your logic here to process the text and extract the desired value
+    # For example, you can check if the text contains a number or a number followed by a plus symbol, etc.
+    # Customize this according to your specific requirements.
 
+    # Placeholder logic (you might need to adjust this based on actual text patterns)
+    if '+' in text:
+        value = int(text.split('+')[0])
+    elif '"' in text or "'" in text:
+        value = int(''.join(filter(str.isdigit, text)))
+    else:
+        value = int(text)
 
-
-    attributes = {
-        "movement": extract_attribute_value(char_wrap, 'M'),
-        "toughness": extract_attribute_value(toughness_char_wrap, 'T'),
-        "save": extract_attribute_value(char_wrap, 'S'),
-        "wounds": extract_attribute_value(char_wrap, 'W'),
-        "leadership": extract_attribute_value(char_wrap, 'Ld'),
-        "objectiveControl": extract_attribute_value(char_wrap, 'OC'),
-    }
-
-    return attributes
+    return value

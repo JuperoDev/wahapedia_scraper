@@ -4,10 +4,10 @@
     {
       "movement": 12,
       "toughness": 4,
-      "save": 0,
-      "wounds": 0,
-      "leadership": 0,
-      "objectiveControl": 0
+      "save": 3,
+      "wounds": 4,
+      "leadership": 5,
+      "objectiveControl": 1
     }
   ],
   "keywords": [
