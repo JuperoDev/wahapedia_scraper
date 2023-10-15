@@ -1,10 +1,8 @@
-# scraping_modules/parentUnit.py
-
 import os
 import requests
 from bs4 import BeautifulSoup
 import json
-
+import re  # Import the regular expression module
 
 def scrape_parent_unit(url):
     try:
@@ -18,8 +16,8 @@ def scrape_parent_unit(url):
         # Finding the div with the specified class
         header_div = soup.find('div', class_='dsH2Header')
 
-        # Extracting the text content of the div
-        parent_unit_name = header_div.text.strip()
+        # Extracting the text content of the div and removing anything within parentheses
+        parent_unit_name = re.sub(r'\([^)]*\)', '', header_div.text).strip()
 
         # Printing the result
         print(f"Parent unit name: {parent_unit_name}")
@@ -40,7 +38,6 @@ def scrape_parent_unit(url):
 
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
-
 
 if __name__ == "__main__":
     # Example URL
