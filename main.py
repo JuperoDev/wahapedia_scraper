@@ -1,4 +1,6 @@
-from scraping_modules import parentUnit
+# main.py
+
+from scraping_modules import parentUnit, factionKeywords
 import json
 import re
 import os
@@ -14,6 +16,14 @@ def save_json(data, filename):
         json.dump(data, json_file, indent=2)
         print(f"JSON file created: {file_path}")
 
+def print_fetched_data(scraped_data):
+    print("Fetched data:")
+    print(f'\n"parentUnit": "{scraped_data["parentUnit"]}",')
+    print('"factionKeywords": [')
+    for keyword in scraped_data["factionKeywords"]:
+        print(f'    "{keyword}",')
+    print("]")
+
 def main():
     # URL to scrape from wahapedia.ru
     url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/blood-angels/Astorath"
@@ -25,8 +35,15 @@ def main():
         # Creating a hyphenated filename
         filename = f"{scraped_data['parentUnit'].replace(' ', '-').lower()}.json"
 
+        # Use the URL from main.py in factionKeywords.scrape_data directly
+        faction_keywords_data = factionKeywords.scrape_data(url_to_scrape)
+        scraped_data['factionKeywords'] = faction_keywords_data
+
         # Saving the JSON data using the save_json function
         save_json(scraped_data, filename)
+
+        # Print the fetched data
+        print_fetched_data(scraped_data)
 
 if __name__ == "__main__":
     main()
