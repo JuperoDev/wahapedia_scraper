@@ -1,6 +1,6 @@
 # main.py
 
-from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged 
+from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore  # Import the lore module
 import json
 import os
 
@@ -11,8 +11,8 @@ def save_json(data, filename):
 
     # Writing JSON to a file in 'fetched-units' with the provided filename
     file_path = os.path.join(folder_path, filename)
-    with open(file_path, 'w') as json_file:
-        json.dump(data, json_file, indent=2)
+    with open(file_path, 'w', encoding='utf-8') as json_file:  # Specify encoding as utf-8
+        json.dump(data, json_file, indent=2, ensure_ascii=False)  # Set ensure_ascii to False
         print(f"JSON file created: {file_path}")
 
 def print_fetched_data(scraped_data):
@@ -33,9 +33,12 @@ def print_fetched_data(scraped_data):
         print('    {},')
     print('}')
 
+    # Print lore information
+    print(f'"lore": "{scraped_data["lore"]}",')
+
 def main():
     # URL to scrape from wahapedia.ru
-    url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/world-eaters/Angron"
+    url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/tyranids/Neurolictor"
 
     # Calling the scrape function from parentUnit module
     scraped_data = parentUnit.scrape_parent_unit(url_to_scrape)
@@ -55,6 +58,10 @@ def main():
         # Call the function from supremeCommander module
         supreme_commander_present = supremeCommander.check_supreme_commander(url_to_scrape)
         scraped_data['supremeCommander'] = supreme_commander_present
+
+        # Call the function from lore module
+        lore_text = lore.get_pic_legend_title(url_to_scrape)
+        scraped_data['lore'] = lore_text
 
         # Saving the JSON data using the save_json function
         save_json(scraped_data, filename)
