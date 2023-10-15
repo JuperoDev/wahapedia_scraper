@@ -38,7 +38,7 @@ def print_fetched_data(scraped_data):
 
 def main():
     # URL to scrape from wahapedia.ru
-    url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/tyranids/Neurolictor"
+    url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/world-eaters/Angron"
 
     # Calling the scrape function from parentUnit module
     scraped_data = parentUnit.scrape_parent_unit(url_to_scrape)
