@@ -1,6 +1,6 @@
 # main.py
 
-from scraping_modules import parentUnit, factionKeywords
+from scraping_modules import parentUnit, factionKeywords, supremeCommander
 import json
 import re
 import os
@@ -22,7 +22,7 @@ def print_fetched_data(scraped_data):
     print('"factionKeywords": [')
     for keyword in scraped_data["factionKeywords"]:
         print(f'    "{keyword}",')
-    print("]")
+    print(f']\n"supremeCommander": "{scraped_data["supremeCommander"]}",')
 
 def main():
     # URL to scrape from wahapedia.ru
@@ -38,6 +38,10 @@ def main():
         # Use the URL from main.py in factionKeywords.scrape_data directly
         faction_keywords_data = factionKeywords.scrape_data(url_to_scrape)
         scraped_data['factionKeywords'] = faction_keywords_data
+
+        # Call the function from supremeCommander module
+        supreme_commander_present = supremeCommander.check_supreme_commander(url_to_scrape)
+        scraped_data['supremeCommander'] = supreme_commander_present
 
         # Saving the JSON data using the save_json function
         save_json(scraped_data, filename)
