@@ -1,6 +1,6 @@
 # main.py
 
-from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged  # Import damaged from scraping_modules
+from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged 
 import json
 import os
 
