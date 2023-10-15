@@ -1,6 +1,6 @@
 # main.py
 
-from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore  # Import the lore module
+from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore, keywords
 import json
 import os
 
@@ -36,6 +36,12 @@ def print_fetched_data(scraped_data):
     # Print lore information
     print(f'"lore": "{scraped_data["lore"]}",')
 
+    # Print keywords information
+    print('"keywords": [')
+    for keyword in scraped_data["keywords"]:
+        print(f'    "{keyword}",')
+    print(']')
+
 def main():
     # URL to scrape from wahapedia.ru
     url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/world-eaters/Angron"
@@ -62,6 +68,10 @@ def main():
         # Call the function from lore module
         lore_text = lore.get_pic_legend_title(url_to_scrape)
         scraped_data['lore'] = lore_text
+
+        # Call the function from keywords module
+        keywords_list = keywords.scrape_keywords(url_to_scrape)
+        scraped_data['keywords'] = keywords_list
 
         # Saving the JSON data using the save_json function
         save_json(scraped_data, filename)

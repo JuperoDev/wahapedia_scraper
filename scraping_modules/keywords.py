@@ -1,23 +1,29 @@
-# scraping_modules/keywords.py
+# keywords.py
+
+import requests
 from bs4 import BeautifulSoup
 
+def scrape_keywords(url):
+    # Fetch HTML content from the URL
+    response = requests.get(url)
+    html = response.text
 
-def extract_keywords(html):
+    # Use BeautifulSoup to parse the HTML
     soup = BeautifulSoup(html, 'html.parser')
-    ds_left_col_kw = soup.find('div', class_='dsLeftСolKW')
 
-    if ds_left_col_kw:
-        keywords_text = ds_left_col_kw.get_text(strip=True)
+    # Find the element with class "dsLeftСolKW"
+    keywords_element = soup.find('div', class_='dsLeftСolKW')
 
-        # Replace non-breaking space with a regular space
-        keywords_text = keywords_text.replace('\xa0', ' ')
+    # Extract text content and convert to lowercase
+    keywords_text = keywords_element.get_text().lower()
 
-        # Remove "KEYWORDS: " text and split the keywords
-        raw_keywords = keywords_text.split('KEYWORDS:')[1].split(',')
+    # Remove "keywords:" from the text
+    keywords_text = keywords_text.replace('keywords:', '').strip()
 
-        # Further split each word and add a space
-        keywords_list = [word.strip().lower() for keyword in raw_keywords for word in keyword.replace(" ", "").split()]
+    # Split by commas and strip whitespace
+    keywords_list = [word.strip() for word in keywords_text.split(',')]
 
-        return keywords_list
-    else:
-        return None
+    # Join kwb spans with a space
+    keywords_list = [' '.join(word.split()) for word in keywords_list]
+
+    return keywords_list

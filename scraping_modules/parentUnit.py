@@ -23,7 +23,7 @@ def scrape_parent_unit(url):
         data = {"parentUnit": parent_unit_name}
 
         # Printing the fetched data
-        print(f"Fetched data: {data}")
+        print(f"Fetching data: {data}")
 
         return data
 
