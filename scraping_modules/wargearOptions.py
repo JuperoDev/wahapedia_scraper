@@ -1,5 +1,5 @@
 # main.py
-from scraping_modules import scraper
+from scraping_modules import parentUnit
 
 if __name__ == "__main__":
-    scraper.main()
+    parentUnit.main()

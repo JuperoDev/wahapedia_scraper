@@ -1,0 +1,4 @@
+# .gitignore
+
+# Ignore fetched JSON files
+fetched-units/
