@@ -11,7 +11,7 @@ def scrape_leader(url):
 
         if ds_right_col_div:
             lower_text = ds_right_col_div.get_text().lower()
-            target_text = "this model can be attached to the following units:".lower()
+            target_text = "this model can be attached to the following".lower()
 
             if target_text in lower_text:
                 a_tags = ds_right_col_div.select('.dsAbility ul li a.kwbOne')
@@ -24,3 +24,8 @@ def scrape_leader(url):
     else:
         print(f"Failed to retrieve the page. Status code: {response.status_code}")
         return []
+
+# Example usage:
+# url = "https://wahapedia.ru/wh40k10ed/factions/thousand-sons/Rubric-Marines"
+# leader_list = scrape_leader(url)
+# print(leader_list)
