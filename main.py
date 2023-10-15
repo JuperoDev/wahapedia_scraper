@@ -1,8 +1,7 @@
 # main.py
 
-from scraping_modules import parentUnit, factionKeywords, supremeCommander
+from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged  # Import damaged from scraping_modules
 import json
-import re
 import os
 
 def save_json(data, filename):
@@ -24,9 +23,19 @@ def print_fetched_data(scraped_data):
         print(f'    "{keyword}",')
     print(f']\n"supremeCommander": "{scraped_data["supremeCommander"]}",')
 
+    # Print damaged information if available
+    damaged_info = scraped_data.get('damaged', {})
+    print('"damaged": {')
+    if damaged_info:
+        print(f'    "remainingWounds": {damaged_info["remainingWounds"]},')
+        print(f'    "description": "{damaged_info["description"]}",')
+    else:
+        print('    {},')
+    print('}')
+
 def main():
     # URL to scrape from wahapedia.ru
-    url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/blood-angels/Astorath"
+    url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/world-eaters/Angron"
 
     # Calling the scrape function from parentUnit module
     scraped_data = parentUnit.scrape_parent_unit(url_to_scrape)
@@ -38,6 +47,10 @@ def main():
         # Use the URL from main.py in factionKeywords.scrape_data directly
         faction_keywords_data = factionKeywords.scrape_data(url_to_scrape)
         scraped_data['factionKeywords'] = faction_keywords_data
+
+        # Use the URL from main.py in damaged.scrape_damage_info directly
+        damaged_data = damaged.scrape_damage_info(url_to_scrape)
+        scraped_data['damaged'] = damaged_data  # Include damaged data in scraped_data
 
         # Call the function from supremeCommander module
         supreme_commander_present = supremeCommander.check_supreme_commander(url_to_scrape)
