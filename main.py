@@ -1,7 +1,9 @@
 # main.py
 
 from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore, keywords
-from scraping_modules.leader import scrape_leader  # Modify the import statement for leader.py
+##################################
+from scraping_modules.leader import scrape_leader # there is a bug here. Only working for AdeptaSororitas. Must ReDo
+##################################
 import json
 import os
 
