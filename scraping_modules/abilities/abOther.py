@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # Define the URL you want to scrape
-url = "https://wahapedia.ru/wh40k10ed/factions/tyranids/Genestealers"
+url = "https://wahapedia.ru/wh40k10ed/factions/genestealer-cults/Atalan-Jackals"
 
 # Send a GET request to the URL
 response = requests.get(url)
@@ -12,16 +12,16 @@ if response.status_code == 200:
     # Parse the HTML content of the page
     soup = BeautifulSoup(response.text, "html.parser")
 
-    # Find all div elements with class="dsAbility"
-    ds_ability_divs = soup.find_all("div", class_="dsAbility")
+    # Find the third div element with class="dsAbility"
+    ds_ability_div = soup.find_all("div", class_="dsAbility")[2]
 
     # Initialize variables to store header and text
     header = None
     text = []
 
-    # Loop through the third dsAbility div
-    for element in ds_ability_divs[2]:
-        if element.name == "b":
+    # Loop through the elements inside the third dsAbility div
+    for element in ds_ability_div.stripped_strings:
+        if element.endswith(":"):
             # If a new header is found, print the previous header and text
             if header:
                 print(header)
@@ -29,9 +29,9 @@ if response.status_code == 200:
                 print()
 
             # Update the header
-            header = element.text.strip()
+            header = element.strip()
             text = []
-        elif isinstance(element, str) and element.strip():
+        else:
             text.append(element.strip())
 
     # Print the last header and text
