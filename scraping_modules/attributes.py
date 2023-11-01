@@ -66,6 +66,22 @@ if response.status_code == 200:
 
                     # Append the extracted name and attributes to the list
                     attributes.append({"name": name, **char_dict})
+
+        # Check for the presence of dsInvulWrap elements
+        ds_invul_wraps = soup.find_all('div', class_='dsInvulWrap')
+
+        if ds_invul_wraps:
+            # Extract the invulnerableSave value from the first dsInvulWrap found
+            ds_char_invul_value = ds_invul_wraps[0].find('div', class_='dsCharInvulValue')
+            if ds_char_invul_value:
+                invulnerable_save = int(re.search(r'\d+', ds_char_invul_value.text.strip()).group())
+            else:
+                invulnerable_save = 0
+
+            # Update the invulnerableSave attribute for all entries
+            for entry in attributes:
+                entry["invulnerableSave"] = invulnerable_save
+
     elif num_divs == 1:
         # Case with one dsProfileBaseWrap div
         div = divs[0]
@@ -92,6 +108,20 @@ if response.status_code == 200:
 
                 # Append the extracted attributes to the list
                 attributes.append(char_dict)
+
+        # Check for the presence of dsInvulWrap elements
+        ds_invul_wraps = soup.find_all('div', class_='dsInvulWrap')
+
+        if ds_invul_wraps:
+            # Extract the invulnerableSave value from the first dsInvulWrap found
+            ds_char_invul_value = ds_invul_wraps[0].find('div', class_='dsCharInvulValue')
+            if ds_char_invul_value:
+                invulnerable_save = int(re.search(r'\d+', ds_char_invul_value.text.strip()).group())
+            else:
+                invulnerable_save = 0
+
+            # Update the invulnerableSave attribute for the single entry
+            attributes[0]["invulnerableSave"] = invulnerable_save
 
     # Create the desired output dictionary
     output = {"attributes": attributes}
