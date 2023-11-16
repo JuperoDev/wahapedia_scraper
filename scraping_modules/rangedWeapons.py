@@ -4,7 +4,7 @@ import re
 import json
 
 # URL of the webpage
-url = "https://wahapedia.ru/wh40k10ed/factions/tyranids/Norn-Emissary"
+url = "https://wahapedia.ru/wh40k10ed/factions/tyranids/Termagants"
 
 # Send a GET request to the URL
 response = requests.get(url)
@@ -63,14 +63,29 @@ if response.status_code == 200:
                                 # Remove "]18\"" or similar from "rest"
                                 rest = rest.replace(f"]{range_value}\"", "").strip()
 
+                                # Extract the "strength" attribute
+                                strength_match = re.search(r'[+A](\d+)(?=[-0])', rest)
+
+                                if strength_match:
+                                    strength = int(strength_match.group(1))
+                                    # Remove the extracted strength from "rest"
+                                    rest = rest.replace(f"+{strength}", "").strip()
+                                else:
+                                    strength = None
+
                                 if rest and rest != "]":
                                     # Replace "\u2013" with "-"
                                     weapon_name = weapon_name.replace("\u2013", "-")
                                     ranged_weapon = {
                                         "name": weapon_name.strip(),
                                         "modifiers": modifiers,
-                                        "rest": rest,
-                                        "range": range_value
+                                        "range": range_value,
+                                        "strength": strength,
+                                        "attacks": 0,  # Add attacks field with initial value
+                                        "ballistic-skills": 0,  # Add ballistic-skills field with initial value
+                                        "armor-penetration": 0,  # Add armor-penetration field with initial value
+                                        "damage": 0,  # Add damage field with initial value
+                                        "singleChoice": False  # Add singleChoice field with initial value
                                     }
                                     ranged_weapons.append(ranged_weapon)
                         else:
@@ -78,16 +93,24 @@ if response.status_code == 200:
                             ranged_weapon = {
                                 "name": text.strip(),
                                 "modifiers": [],
-                                "rest": "",
-                                "range": None
+                                "range": None,
+                                "strength": None,
+                                "attacks": 0,  # Add attacks field with initial value
+                                "ballistic-skills": 0,  # Add ballistic-skills field with initial value
+                                "armor-penetration": 0,  # Add armor-penetration field with initial value
+                                "damage": 0,  # Add damage field with initial value
+                                "singleChoice": False  # Add singleChoice field with initial value
                             }
                             ranged_weapons.append(ranged_weapon)
 
                 # Filter out objects with both empty "rest" fields and "rest" equal to "]"
-                filtered_ranged_weapons = [weapon for weapon in ranged_weapons if weapon["rest"] and weapon["rest"] != "]"]
+                filtered_ranged_weapons = [weapon for weapon in ranged_weapons if weapon["range"] is not None]
 
-                # Print the formatted output with filtering, replacement, and range attribute
-                print('"rangedWeapons":', json.dumps(filtered_ranged_weapons, indent=2))
+                # Create a new list without the "rest" field
+                filtered_ranged_weapons_without_rest = [{"name": weapon["name"], "modifiers": weapon["modifiers"], "range": weapon["range"], "strength": weapon["strength"], "attacks": weapon["attacks"], "ballistic-skills": weapon["ballistic-skills"], "armor-penetration": weapon["armor-penetration"], "damage": weapon["damage"], "singleChoice": weapon["singleChoice"]} for weapon in filtered_ranged_weapons]
+
+                # Print the formatted output
+                print('"rangedWeapons":', json.dumps(filtered_ranged_weapons_without_rest, indent=2))
             else:
                 print('"rangedWeapons": []')
         else:
