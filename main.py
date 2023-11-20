@@ -4,7 +4,8 @@ from scraping_modules import parentUnit, factionKeywords, supremeCommander, dama
 from scraping_modules.leader import scrape_leader
 from scraping_modules.attributes import scrape_attributes
 from scraping_modules import rangedWeapons
-from scraping_modules.abilities import abCore  # Import the abCore module
+from scraping_modules.abilities import abCore
+from scraping_modules.abilities import abFaction  # Import the abFaction module
 
 def save_json(data, filename):
     folder_path = 'fetched-units'
@@ -49,9 +50,13 @@ def main():
         ranged_weapons_data = rangedWeapons.scrape_ranged_weapons(url_to_scrape)
         scraped_data['rangedWeapons'] = ranged_weapons_data  # Include ranged weapons data in scraped_data
 
-        # Use the URL from main.py to scrape abilities data
-        abilities_data = abCore.scrape_abilities(url_to_scrape)
-        scraped_data['abilities'] = {"core": abilities_data}  # Include abilities data in scraped_data
+        # Use the URL from main.py to scrape abilities data (abCore)
+        abilities_data_core = abCore.scrape_abilities(url_to_scrape)
+        scraped_data['abilities'] = {"core": abilities_data_core}  # Include abilities data (abCore) in scraped_data
+
+        # Use the URL from main.py to scrape abilities data (abFaction)
+        abilities_data_faction = abFaction.scrape_faction_abilities(url_to_scrape)
+        scraped_data['abilities']['faction'] = abilities_data_faction  # Include abilities data (abFaction) in scraped_data
 
         # Print the scraped rangedWeapons data
         print("Scraped Ranged Weapons Data:")
