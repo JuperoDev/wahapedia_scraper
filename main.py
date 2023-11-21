@@ -61,7 +61,7 @@ def main():
 
         # Use the URL from main.py to scrape abilities data (abOther)
         abilities_data_other = abOther.scrape_other_abilities(url_to_scrape)
-        scraped_data['abilities']['otherAbilities'] = abilities_data_other  # Include abilities data (abOther) in scraped_data
+        scraped_data['abilities']['otherAbilities'] = abilities_data_other  # Include abilities data (abOther) as otherAbilities
 
         # Print the scraped rangedWeapons data
         print("Scraped Ranged Weapons Data:")
@@ -105,6 +105,18 @@ def print_fetched_data(scraped_data):
     # Print attributes information directly as an array
     print('"attributes":')
     print(json.dumps(scraped_data["attributes"], indent=2, ensure_ascii=False))
+
+    # Print abilities data (abCore)
+    print('\n"abilities": {')
+    print(f'    "core": {json.dumps(scraped_data["abilities"]["core"], indent=2, ensure_ascii=False)},')
+
+    # Print abilities data (abFaction)
+    print(f'    "faction": {json.dumps(scraped_data["abilities"]["faction"], indent=2, ensure_ascii=False)},')
+
+    # Print abilities data (abOther) as otherAbilities
+    print(f'    "otherAbilities": {json.dumps(scraped_data["abilities"]["otherAbilities"], indent=2, ensure_ascii=False)},')
+
+    print('}')
 
 if __name__ == "__main__":
     main()
