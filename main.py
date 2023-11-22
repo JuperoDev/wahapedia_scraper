@@ -1,5 +1,8 @@
 import json
 import os
+
+# Import your scraping modules as needed
+# Import your scraping modules as needed
 from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore, keywords
 from scraping_modules.leader import scrape_leader
 from scraping_modules.attributes import scrape_attributes
@@ -16,9 +19,10 @@ def save_json(data, filename):
         json.dump(data, json_file, indent=2, ensure_ascii=False)
         print(f"JSON file created: {file_path}")
 
-def main():
-    url_to_scrape = "https://wahapedia.ru/wh40k10ed/factions/adepta-sororitas/Aestred-Thurga-And-Agathae-Dolan"
+def scrape_and_save_url(url_to_scrape):
+    scraped_data = {}  # Initialize an empty dictionary for each URL
 
+    # Perform scraping for the current URL and populate scraped_data dictionary
     scraped_data = parentUnit.scrape_parent_unit(url_to_scrape)
 
     if scraped_data:
@@ -63,10 +67,18 @@ def main():
         abilities_data_other = abOther.scrape_other_abilities(url_to_scrape)
         scraped_data['abilities']['otherAbilities'] = abilities_data_other  # Include abilities data (abOther) as otherAbilities
 
-        # Print the scraped rangedWeapons data
-        print("Scraped Ranged Weapons Data:")
-        print(json.dumps(ranged_weapons_data, indent=2, ensure_ascii=False))
+    return scraped_data
 
+def main():
+    # Read the list of URLs from a text file
+    with open('urls.txt', 'r') as file:
+        urls = file.read().splitlines()
+
+    for url_to_scrape in urls:
+        scraped_data = scrape_and_save_url(url_to_scrape)
+
+        # Save the scraped data to a separate JSON file for each URL
+        filename = f"{url_to_scrape.split('/')[-1].replace('-', '_').lower()}.json"
         save_json(scraped_data, filename)
         print_fetched_data(scraped_data)
 
