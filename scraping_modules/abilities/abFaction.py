@@ -23,10 +23,12 @@ def scrape_faction_abilities(url):
             # Extract the text content of the second 'dsAbility' div
             data_from_second_ds_ability = second_ds_ability_div.get_text()
 
-            # Remove the "FACTION" prefix
-            data_without_faction = data_from_second_ds_ability.replace("FACTION:", "").strip()
+            # Check if "FACTION:" is present in the text
+            if "FACTION:" in data_from_second_ds_ability:
+                # Remove the "FACTION" prefix
+                data_without_faction = data_from_second_ds_ability.replace("FACTION:", "").strip()
 
-            # Split the data by commas and remove leading/trailing spaces
-            faction_abilities = [ability.strip() for ability in data_without_faction.split(',')]
+                # Split the data by commas and remove leading/trailing spaces
+                faction_abilities = [ability.strip() for ability in data_without_faction.split(',')]
 
     return faction_abilities
