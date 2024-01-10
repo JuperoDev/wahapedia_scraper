@@ -5,8 +5,8 @@ def scrape_other_abilities(url):
     # Send an HTTP GET request to the URL
     response = requests.get(url)
 
-    # Initialize dictionaries to store other abilities
-    other_abilities = {}
+    # Initialize a list to store objects
+    other_abilities_list = []
 
     if response.status_code == 200:
         # Parse the HTML content of the page
@@ -25,17 +25,17 @@ def scrape_other_abilities(url):
             # Loop through the elements inside the third dsAbility div
             for element in third_ds_ability_div.stripped_strings:
                 if element.endswith(":"):
-                    # If a new header is found, store the previous header and text
+                    # If a new header is found, store the previous header and text as an object
                     if header:
-                        other_abilities[header] = " ".join(text)
+                        other_abilities_list.append({"name": header, "description": " ".join(text)})
                     # Update the header
                     header = element.strip()
                     text = []
                 else:
                     text.append(element.strip())
 
-            # Store the last header and text
+            # Store the last header and text as an object
             if header:
-                other_abilities[header] = " ".join(text)
+                other_abilities_list.append({"name": header, "description": " ".join(text)})
 
-    return other_abilities
+    return {"otherAbilities": other_abilities_list}
