@@ -38,4 +38,4 @@ def scrape_other_abilities(url):
             if header:
                 other_abilities_list.append({"name": header, "description": " ".join(text)})
 
-    return {"otherAbilities": other_abilities_list}
+    return other_abilities_list
