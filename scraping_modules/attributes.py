@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import json
 import re
 
 def scrape_attributes(url):
@@ -9,45 +8,50 @@ def scrape_attributes(url):
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        ds_profile_base_wrap_divs = soup.find_all('div', class_='dsProfileBaseWrap')
+        char_dict = {
+            "movement": 0,
+            "toughness": 0,
+            "salvation": 0,
+            "wounds": 0,
+            "leadership": 0,
+            "objectiveControl": 0,
+            "invulnerableSave": 0
+        }
 
-        attributes_list = []
+        ds_char_wrap_divs = soup.find_all('div', class_='dsCharWrap')
 
-        for div in ds_profile_base_wrap_divs:
-            model_name_div = div.find('span', class_='dsModelName')
+        for char_wrap in ds_char_wrap_divs:
+            char_name_div = char_wrap.find('div', class_='dsCharName')
+            char_value_div = char_wrap.find('div', class_='dsCharValue')
 
-            if model_name_div:
-                name = model_name_div.text.strip().lower()
-                profile_wrap_left_div = div.find('div', class_='dsProfileWrapLeft')
+            if char_name_div and char_value_div:
+                char_name = char_name_div.text.strip()
+                char_value = char_value_div.text.strip()
 
-                if profile_wrap_left_div:
-                    char_frame_back_divs = profile_wrap_left_div.find_all('div', class_='dsCharFrameBack')
-                    char_attributes = []
+                if "M" in char_name:
+                    char_dict["movement"] = int(re.search(r'\d+', char_value).group())
+                elif "T" in char_name:
+                    char_dict["toughness"] = int(re.search(r'\d+', char_value).group())
+                elif "Sv" in char_name:
+                    char_dict["salvation"] = int(re.search(r'\d+', char_value).group())
+                elif "W" in char_name:
+                    char_dict["wounds"] = int(re.search(r'\d+', char_value).group())
+                elif "Ld" in char_name:
+                    char_dict["leadership"] = int(re.search(r'\d+', char_value).group())
+                elif "OC" in char_name:
+                    char_dict["objectiveControl"] = int(re.search(r'\d+', char_value).group())
 
-                    for char_frame_back_div in char_frame_back_divs:
-                        char_text = char_frame_back_div.text.strip()
-                        char_values = char_text.split()
-                        char_attributes.extend(char_values)
+        invul_value_div = soup.find('div', class_='dsCharInvulValue')
+        if invul_value_div:
+            invulnerable_save_value = invul_value_div.text.strip()
+            char_dict["invulnerableSave"] = int(re.search(r'\d+', invulnerable_save_value).group())
 
-                    char_dict = {
-                        "name": name,
-                        "movement": int(re.search(r'\d+', char_attributes[0]).group()),
-                        "toughness": int(re.search(r'\d+', char_attributes[1]).group()),
-                        "salvation": int(re.search(r'\d+', char_attributes[2]).group()),
-                        "wounds": int(re.search(r'\d+', char_attributes[3]).group()),
-                        "leadership": int(re.search(r'\d+', char_attributes[4]).group()),
-                        "objectiveControl": int(re.search(r'\d+', char_attributes[5]).group())
-                    }
+        return char_dict
 
-                    attributes_list.append(char_dict)
-
-        return attributes_list
-
-    else:
-        print(f"Failed to retrieve the webpage. Status code: {response.status_code}")
-        return []
+    print("No attributes found on the page.")
+    return {}
 
 # Example usage:
 # url = "https://wahapedia.ru/wh40k10ed/factions/thousand-sons/Rubric-Marines"
-# attributes_list = scrape_attributes(url)
-# print(attributes_list)
+# attributes_dict = scrape_attributes(url)
+# print(attributes_dict)
