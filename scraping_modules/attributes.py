@@ -51,7 +51,4 @@ def scrape_attributes(url):
     print("No attributes found on the page.")
     return {}
 
-# Example usage:
-# url = "https://wahapedia.ru/wh40k10ed/factions/thousand-sons/Rubric-Marines"
-# attributes_dict = scrape_attributes(url)
-# print(attributes_dict)
+
