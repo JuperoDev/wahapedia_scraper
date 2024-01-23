@@ -2,14 +2,14 @@ import json
 import os
 
 # Import your scraping modules as needed
-# Import your scraping modules as needed
 from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore, keywords
 from scraping_modules.leader import scrape_leader
 from scraping_modules.attributes import scrape_attributes
 from scraping_modules import rangedWeapons
 from scraping_modules.abilities import abCore
 from scraping_modules.abilities import abFaction
-from scraping_modules.abilities import abOther  # Import the abOther module
+from scraping_modules.abilities import abOther
+from scraping_modules.wargear import scrape_wargear  # Import the wargear module
 
 def save_json(data, filename):
     folder_path = 'fetched-units'
@@ -67,20 +67,11 @@ def scrape_and_save_url(url_to_scrape):
         abilities_data_other = abOther.scrape_other_abilities(url_to_scrape)
         scraped_data['abilities']['otherAbilities'] = abilities_data_other  # Include abilities data (abOther) as otherAbilities
 
+        # Use the URL from main.py to scrape wargear data
+        wargear_data = scrape_wargear(url_to_scrape)
+        scraped_data['wargear'] = wargear_data  # Include wargear data in scraped_data
+
     return scraped_data
-
-def main():
-    # Read the list of URLs from a text file
-    with open('urls.txt', 'r') as file:
-        urls = file.read().splitlines()
-
-    for url_to_scrape in urls:
-        scraped_data = scrape_and_save_url(url_to_scrape)
-
-        # Save the scraped data to a separate JSON file for each URL
-        filename = f"{url_to_scrape.split('/')[-1].replace('-', '_').lower()}.json"
-        save_json(scraped_data, filename)
-        print_fetched_data(scraped_data)
 
 def print_fetched_data(scraped_data):
     print("Fetched data:")
@@ -128,7 +119,23 @@ def print_fetched_data(scraped_data):
     # Print abilities data (abOther) as otherAbilities
     print(f'    "otherAbilities": {json.dumps(scraped_data["abilities"]["otherAbilities"], indent=2, ensure_ascii=False)},')
 
+    # Print wargear data
+    print(f'    "wargear": {json.dumps(scraped_data["wargear"], indent=2, ensure_ascii=False)},')
+
     print('}')
+
+def main():
+    # Read the list of URLs from a text file
+    with open('urls.txt', 'r') as file:
+        urls = file.read().splitlines()
+
+    for url_to_scrape in urls:
+        scraped_data = scrape_and_save_url(url_to_scrape)
+
+        # Save the scraped data to a separate JSON file for each URL
+        filename = f"{url_to_scrape.split('/')[-1].replace(' ', '-').lower()}.json"
+        save_json(scraped_data, filename)
+        print_fetched_data(scraped_data)
 
 if __name__ == "__main__":
     main()
