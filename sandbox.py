@@ -1,46 +1,51 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 import json
 
-# Define the URL to scrape
-url = "https://wahapedia.ru/wh40k10ed/factions/space-marines/Devastator-Squad"
+# Define a function to process <ul> elements
+def process_ul(ul_tag):
+    items = []
+
+    for li_tag in ul_tag.find_all("li", recursive=False):
+        description = li_tag.text.strip()
+        item = {"description": description, "items": []}
+
+        nested_ul = li_tag.find("ul")
+        if nested_ul:
+            item["items"] = [nested_li.text.strip() for nested_li in nested_ul.find_all("li")]
+        
+        items.append(item)
+
+    return items
+
+# Define the URL
+url = "https://wahapedia.ru/wh40k10ed/factions/space-wolves/Blood-Claws"
 
 # Send an HTTP GET request to the URL
 response = requests.get(url)
 
-# Check if the request was successful
+# Initialize a list to store wargear items as dictionaries
+wargear_list = []
+
+# Check if the request was successful (status code 200)
 if response.status_code == 200:
-    # Parse the HTML content of the page using BeautifulSoup
+    # Parse the HTML content of the page
     soup = BeautifulSoup(response.text, "html.parser")
 
-    # Find the "wargear options" section
-    wargear_options = soup.find(string=re.compile("wargear options"))
+    # Check if the "WARGEAR OPTIONS" text exists on the page
+    if "WARGEAR OPTIONS" in soup.text:
+        # Find the first <ul> tag on the entire page
+        first_ul = soup.find("ul")
 
-    # Check if the "wargear options" section exists
-    if wargear_options:
-        # Find the first <ul> element after the "wargear options" section
-        first_ul = wargear_options.find_next("ul")
+        # Check if the <ul> tag exists and contains <li> elements
+        if first_ul:
+            wargear_list = process_ul(first_ul)
 
-        # Initialize an empty list to store the objects
-        items_list = []
+# Remove text after ":" in the "description" field
+for item in wargear_list:
+    description = item["description"]
+    if ":" in description:
+        item["description"] = description.split(":", 1)[0].strip()
 
-        # Iterate through the <li> elements within the first <ul>
-        for li in first_ul.find_all("li", recursive=False):
-            # Create an object for each <li>
-            item = {"description": li.get_text(strip=True)}
-            nested_ul = li.find("ul")
-
-            if nested_ul:
-                # If a nested <ul> exists, extract its <li> elements
-                item["items"] = [nested_li.get_text(strip=True) for nested_li in nested_ul.find_all("li")]
-
-            # Append the object to the list
-            items_list.append(item)
-
-        # Print the result as a JSON array
-        print(json.dumps(items_list, indent=2))
-    else:
-        print("No 'wargear options' section found on the page.")
-else:
-    print("Failed to fetch the webpage. Status code:", response.status_code)
+# Convert the result list to JSON and print it
+print(json.dumps(wargear_list, indent=2))
