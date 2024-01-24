@@ -57,11 +57,11 @@ def scrape_ranged_weapons(url):
                                             "name": weapon_name.strip(),
                                             "modifiers": modifiers,
                                             "range": range_value,
+                                            "attacks": 2,
+                                            "ballistic-skills": 3,
                                             "strength": strength,
-                                            "attacks": 0,
-                                            "ballistic-skills": 0,
-                                            "armor-penetration": 0,
-                                            "damage": 0,
+                                            "armor-penetration": 1,
+                                            "damage": 1,
                                             "singleChoice": False
                                         }
                                         ranged_weapons.append(ranged_weapon)
