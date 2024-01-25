@@ -2,10 +2,9 @@ import json
 import os
 
 # Import your scraping modules as needed
-from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore, keywords
+from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore, keywords, meleeWeapons, rangedWeapons  # Import the rangedWeapons and meleeWeapons modules
 from scraping_modules.leader import scrape_leader
 from scraping_modules.attributes import scrape_attributes
-from scraping_modules import rangedWeapons
 from scraping_modules.abilities import abCore
 from scraping_modules.abilities import abFaction
 from scraping_modules.abilities import abOther
@@ -71,6 +70,10 @@ def scrape_and_save_url(url_to_scrape):
         wargear_data = scrape_wargear(url_to_scrape)
         scraped_data['wargear'] = wargear_data  # Include wargear data in scraped_data
 
+        # Use the URL from main.py to scrape melee weapons data
+        melee_weapons_data = meleeWeapons.scrape_melee_weapons(url_to_scrape)
+        scraped_data['meleeWeapons'] = melee_weapons_data  # Include melee weapons data in scraped_data
+
     return scraped_data
 
 def print_fetched_data(scraped_data):
@@ -121,6 +124,9 @@ def print_fetched_data(scraped_data):
 
     # Print wargear data
     print(f'    "wargear": {json.dumps(scraped_data["wargear"], indent=2, ensure_ascii=False)},')
+
+    # Print melee weapons data
+    print(f'    "meleeWeapons": {json.dumps(scraped_data["meleeWeapons"], indent=2, ensure_ascii=False)},')
 
     print('}')
 
