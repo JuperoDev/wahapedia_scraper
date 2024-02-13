@@ -1,1 +1,7 @@
-https://wahapedia.ru/wh40k10ed/factions/blood-angels/Tycho-The-Lost
+https://wahapedia.ru/wh40k10ed/factions/chaos-space-marines/Noise-Marines
+https://wahapedia.ru/wh40k10ed/factions/chaos-space-marines/Obliterators
+https://wahapedia.ru/wh40k10ed/factions/chaos-space-marines/Possessed
+https://wahapedia.ru/wh40k10ed/factions/chaos-space-marines/Raptors
+https://wahapedia.ru/wh40k10ed/factions/chaos-space-marines/Traitor-Guardsmen-Squad
+https://wahapedia.ru/wh40k10ed/factions/chaos-space-marines/Venomcrawler
+https://wahapedia.ru/wh40k10ed/factions/chaos-space-marines/Warp-Talons
