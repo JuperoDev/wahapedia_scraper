@@ -1,11 +1,1 @@
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Kill-Team-Cassius
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Watch-Captain-Artemis
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Watch-Master
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Deathwatch-Veterans
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Corvus-Blackstar
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Deathwatch-Terminator-Squad
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Fortis-Kill-Team
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Indomitor-Kill-Team
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Proteus-Kill-Team
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Spectrus-Kill-Team
-https://wahapedia.ru/wh40k10ed/factions/deathwatch/Veteran-Bike-Squad
+https://wahapedia.ru/wh40k10ed/factions/space-marines/Brutalis-Dreadnought-UL
