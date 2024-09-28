@@ -1,14 +1,14 @@
 import json
 import os
 
-# Import your scraping modules as needed
-from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore, keywords, meleeWeapons, rangedWeapons  # Import the rangedWeapons and meleeWeapons modules
+
+from scraping_modules import parentUnit, factionKeywords, supremeCommander, damaged, lore, keywords, meleeWeapons, rangedWeapons  
 from scraping_modules.leader import scrape_leader
 from scraping_modules.attributes import scrape_attributes
 from scraping_modules.abilities import abCore
 from scraping_modules.abilities import abFaction
 from scraping_modules.abilities import abOther
-from scraping_modules.wargear import scrape_wargear  # Import the wargear module
+from scraping_modules.wargear import scrape_wargear  
 
 def save_json(data, filename):
     folder_path = 'fetched-units'
